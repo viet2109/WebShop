@@ -1,13 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { BiSearchAlt, BiUserCircle } from "react-icons/bi";
+import { FaBars, FaClosedCaptioning } from "react-icons/fa";
+import { BiSearchAlt, BiUserCircle, BiXCircle } from "react-icons/bi";
 import { BsShop } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import classNames from "classnames/bind";
 import styles from "./Header.module.css";
+import { useState } from "react";
+
 const cx = classNames.bind(styles);
+
 function Header() {
+  const [products, setProducts] = useState(() => {
+    return JSON.parse(localStorage.getItem('products'))
+  });
+  const [suggestProduct, setSuggestProduct] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
+  
+
   return (
     <div className="h-header-h fixed top-0 w-screen border-b px-4 bg-white z-[99999] md:px-8">
       <div className="h-full mx-auto flex justify-between items-center">
@@ -15,16 +25,78 @@ function Header() {
           Vshop
         </Link>
         <div className="bg-gray-200 px-4 py-2 rounded relative md:w-[400px] lg:w-[800px] w-[60%]">
-          <input
-            type="text"
-            name=""
-            id=""
-            className="bg-transparent outline-none w-[90%] "
-          />
+          <div className={cx('search-wrapper')}>
+            <input
+            spellCheck={false}
+              type="text"
+              name=""
+              id=""
+              className="bg-transparent outline-none w-[90%] "
+              onChange={(e) => {
+                
+                if (!e.target.value.startsWith(' ') && e.target.value.trim().length>0) {
+                  let list = [];
+                  for (const product of products) {
+                    if (
+                      product.id
+                        .toUpperCase()
+                        .includes(e.target.value.toUpperCase())
+                    ) {
+                     list = [...list, product]
+                    }
+                  }
+                  setShowMenu(true);
+                  setSuggestProduct(prev => list);
+                  
+                } else {
+                  e.target.value =  '';
+                  setSuggestProduct(prev => [])
+                 
+                }
+              }}
+              onBlur={(e) => {
+                const search = document.querySelector(`.${cx('search-list')}`);
+                if (search) {
+                  search.style.opacity = '0'
+                  setTimeout(() => {
+                    search.style.top = "-999px";
+
+                  }, 600)
+                }
+              }}
+              onFocus={() => {
+                const search = document.querySelector(`.${cx('search-list')}`);
+                if (search) {
+                  search.style.opacity = '1'
+                  search.style.top = "46px";
+                }
+                setShowMenu(true)
+
+              }}
+            />
+            
+          </div>
           <BiSearchAlt
             className="absolute top-1/2 right-1 -translate-y-1/2"
             size={20}
           />
+          <ul className={cx('search-list')} style={suggestProduct.length>0 && showMenu?{display: 'block'}:{display: 'none'}}>
+             
+              {
+                suggestProduct.map((sp, index) => (
+                  <li key={index} className={cx('search-item')}
+                  onClick={(e) => {
+                  
+                    setSuggestProduct(prev => [])
+                    document.querySelector(`.${cx('search-wrapper')} input`).value = ""
+                  }}
+                  
+                  ><Link to={`/${sp.id}`} state={{...sp}}>{sp.id}</Link></li>
+                ))
+              }
+             
+
+             </ul>
         </div>
         <div className="flex gap-x-4 md:gap-x-6">
           <FaBars className="md:hidden" size={20} />
@@ -33,7 +105,8 @@ function Header() {
           <AiOutlineShoppingCart className="hidden md:block" size={24} />
           <BiUserCircle className="hidden md:block" size={24} />
         </div>
-        <div className={cx("sub-menu")}>
+
+        {/* <div className={cx("sub-menu")}>
           <ul className={cx("menu-list")}>
             <li className={cx("menu-item-header")}>Catagories</li>
 
@@ -58,7 +131,7 @@ function Header() {
             <li className={cx("menu-item")}>Overear Headphone</li>
             <li className={cx("menu-item")}>Sport Headphone</li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );
