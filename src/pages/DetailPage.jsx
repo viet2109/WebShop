@@ -138,7 +138,7 @@ function DetailPage() {
                   );
                   if (inputField.value.trim()) {
                     setRender(prev => !prev);
-                    comment = [inputField.value , ...comment];
+                    comment = [inputField.value, ...comment];
                     localStorage.setItem(`product${state.id}`, JSON.stringify(comment))
                     inputField.value = "";
                     pushWrap.style.display = "none";
