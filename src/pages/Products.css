@@ -1,0 +1,22 @@
+@media (max-width: 1023px) {
+    #check-mobile-menu:checked ~ .filter-list {
+        display: block;
+        transform: translateX(0);
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+        padding: 0 24px;
+        background-color: #ccc;
+       
+    }
+    .filter-list {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 0;
+        z-index: 999;
+    }
+    
+}

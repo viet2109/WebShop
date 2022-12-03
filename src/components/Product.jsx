@@ -13,8 +13,8 @@ function Product({ item }) {
     }
     return (
         <div className='flex flex-col items-center hover:bg-gray-300 transition duration-500 group relative'>
-            <img src={item.img} alt="" className='h-80 group-hover:hidden' />
-            <img src={item.hover} alt="" className='h-80 hidden group-hover:block' />
+            <img src={item.img} alt="" className='h-72 group-hover:hidden' />
+            <img src={item.hover} alt="" className='h-72 hidden group-hover:block' />
             <div className="md:p-5 relative w-full">
                 <div className="w-full flex items-center justify-center mb-2 text-xs md:absolute md:bottom-0 md:mb-0  transition duration-300  md:group-hover:-translate-y-[80px]
                 md:group-hover:opacity-100 md:group-hover:flex md:left-0  md:opacity-0">

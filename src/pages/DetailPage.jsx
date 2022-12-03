@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsCurrencyDollar } from "react-icons/bs";
 import {
   AiFillStar,
@@ -17,10 +17,16 @@ const cx = className.bind(styles);
 
 function DetailPage() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   let comment = JSON.parse(localStorage.getItem(`product${state.id}`)) ?? [];
   const [render, setRender] = useState(false);
 
   let indents = [];
+
+  const handleClickProducts = () => {
+    window.scrollTo(0, 0);
+    navigate("/products");
+  };
 
   for (let i = 0; i < state.rated; i++) {
     indents.push(
@@ -82,6 +88,15 @@ function DetailPage() {
           ))}
         </div>
 
+        <div className="w-full  flex justify-center mt-16 mb-20">
+          <button
+            className="bg-black rounded-lg overflow-hidden text-white hover:bg-orange-600 transition-all duration-300 ease-in-out font-semibold pt-4 pb-4 pl-8 pr-8"
+            onClick={handleClickProducts}
+          >
+            View all
+          </button>
+        </div>
+
         {/* Comment */}
 
         <div className={cx("comment-wrapper")}>
@@ -137,9 +152,12 @@ function DetailPage() {
                     `.${cx("push-content-btn")}`
                   );
                   if (inputField.value.trim()) {
-                    setRender(prev => !prev);
+                    setRender((prev) => !prev);
                     comment = [inputField.value, ...comment];
-                    localStorage.setItem(`product${state.id}`, JSON.stringify(comment))
+                    localStorage.setItem(
+                      `product${state.id}`,
+                      JSON.stringify(comment)
+                    );
                     inputField.value = "";
                     pushWrap.style.display = "none";
                   }
@@ -164,7 +182,6 @@ function DetailPage() {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );
