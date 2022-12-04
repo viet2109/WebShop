@@ -12,6 +12,7 @@ import className from "classnames/bind";
 import styles from "./DetailPage.module.css";
 import Button from "../components/Button";
 import Product from "../components/Product";
+import { productStore } from "../ProductStore";
 
 const cx = className.bind(styles);
 
@@ -28,7 +29,7 @@ function DetailPage() {
     navigate("/products");
   };
 
-  for (let i = 0; i < state.rated; i++) {
+  for (let i = 0; i < state.rate; i++) {
     indents.push(
       <AiFillStar key={i} className="mx-2 text-yellow-400"></AiFillStar>
     );
@@ -83,7 +84,7 @@ function DetailPage() {
         <Button>Thêm vào giỏ hàng</Button>
         <p className="mt-10 text-center text-xl font-bold">Các sản phẩm khác</p>
         <div className="grid grid-cols-1 mt-4 gap-8 md:grid-cols-2 mb-4 lg:grid-cols-3">
-          {JSON.parse(localStorage.getItem("products")).map((e) => (
+          {productStore.map((e) => (
             <Product key={e.id} item={e} />
           ))}
         </div>

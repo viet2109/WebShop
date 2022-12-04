@@ -5,13 +5,11 @@ import Select from "react-select";
 import "./Products.css";
 import { useState } from "react";
 import { useRef } from "react";
+import { productStore } from "../ProductStore";
 
 function Products() {
-  const productMain = useRef(JSON.parse(localStorage.getItem("products")));
-  const [products, setProducts] = useState(() => {
-    const res = JSON.parse(localStorage.getItem("products"));
-    return res;
-  });
+  const productMain = useRef(productStore);
+  const [products, setProducts] = useState(productStore);
   const priceFil = useRef([]);
   const brandFil = useRef([]);
   const colorFil = useRef([]);
@@ -37,22 +35,22 @@ function Products() {
     setProducts((prev) => [...res]);
     window.scrollTo(0, 0);
   };
+  const filterList = useRef()
+  const handleShowFilter = () => {
+    console.log(window.innerWidth);
+    if (window.innerWidth > 1024) return
+    if (filterList.current.style.width === '100%') {
+      filterList.current.style.width = '0'
+      filterList.current.style.padding = '0'
+    } else {
+      filterList.current.style.width = '100%'
+      filterList.current.style.padding = '0 24px'
+    }
+  }
   return (
     <div className="flex max-w-7xl mx-auto mt-8 px-7">
-      <input
-        type="checkbox"
-        name=""
-        id="check-mobile-menu"
-        hidden
-        className="w-0 h-0"
-      />
-      <div className="filter-list w-0 mr-14  max-h-full overflow-auto transition-all duration-500  lg:w-1/4  ">
-        <div className="w-full mt-3  flex justify-end  lg:hidden">
-          <label htmlFor="check-mobile-menu" className="cursor-pointer">
-            <AiFillCloseCircle className="text-5xl" />
-          </label>
-        </div>
-
+      <div className="w-0 fixed top-header-h left-0 z-[999] bg-[#ccc]  max-h-full overflow-auto transition-all duration-500  lg:w-[200px] lg:relative lg:bg-white lg:mr-6" ref={filterList}>
+        <AiFillCloseCircle className="text-5xl ml-auto mt-4 lg:hidden" onClick={handleShowFilter} />
         {/* Select input  (begin) */}
 
         <form action="" className="mb-16 form">
@@ -64,16 +62,17 @@ function Products() {
             onChange={(option) => {
               priceFil.current = option.value;
               handleFilter();
+              handleShowFilter();
             }}
             placeholder={"Select price"}
             options={[
+              { value: [Number.MIN_VALUE, Number.MAX_VALUE], label: "Toàn bộ sản phẩm" },
               { value: [100, 500], label: "Dưới 500" },
               { value: [501, 1000], label: "Từ 500 - 1000" },
               { value: [1001, Number.MAX_VALUE], label: "Trên 1000" },
             ]}
           />
         </form>
-
         {/* Select input  (end) */}
 
         {/* Checkbox input (begin) */}
@@ -98,6 +97,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"brand1"}>
@@ -120,6 +120,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"brand2"}>
@@ -142,6 +143,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"brand3"}>
@@ -164,6 +166,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"brand4"}>
@@ -186,6 +189,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"brand5"}>
@@ -215,6 +219,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"color1"}>
@@ -237,6 +242,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"color2"}>
@@ -259,6 +265,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"color3"}>
@@ -281,6 +288,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"color4"}>
@@ -303,6 +311,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="cursor-pointer" htmlFor={"color5"}>
@@ -332,6 +341,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="flex cursor-pointer" htmlFor={"rate5"}>
@@ -358,6 +368,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="flex cursor-pointer" htmlFor={"rate4"}>
@@ -383,6 +394,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="flex cursor-pointer" htmlFor={"rate3"}>
@@ -407,6 +419,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="flex cursor-pointer" htmlFor={"rate2"}>
@@ -430,6 +443,7 @@ function Products() {
                   );
                 }
                 handleFilter();
+                handleShowFilter();
               }}
             />
             <label className="flex cursor-pointer" htmlFor={"rate1"}>
@@ -445,6 +459,7 @@ function Products() {
         <label
           className="w-36 leading-10 py-1 cursor-pointer text-center text-white bg-black hover:text-black hover:bg-gray-300 lg:hidden font-semibold"
           htmlFor="check-mobile-menu"
+          onClick={handleShowFilter}
         >
           Filter
         </label>
