@@ -21,6 +21,7 @@ function Header() {
   const [suggestProduct, setSuggestProduct] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate()
+  const [showMenuMobile, setShowMenuMobile] = useState(false)
   const handleClikProduct = (sp) => {
     navigate(`/${sp.id}`, { state: { ...sp } })
   }
@@ -134,29 +135,39 @@ function Header() {
             <Tippy
               interactive={true}
               placement="bottom-start"
-
+              visible={showMenuMobile}
               render={() => (
                 <ul className="w-40 bg-white shadow-xl rounded-lg border mt-3 py-4">
-                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4">
+                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4" onClick={() => {
+                    setShowMenuMobile(false)
+                  }}>
                     <AiOutlineHeart />
                     <span className="ml-2">Đã thích</span>
                   </li>
-                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 lg:hidden" onClick={() => navigate('/products')}>
+                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 lg:hidden" onClick={() => {
+                    setShowMenuMobile(false)
+                    navigate('/products')
+                  }}>
                     <BsShop className="" />
                     <span className="ml-2">Sản phẩm</span>
                   </li>
-                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 lg:hidden" onClick={() => navigate('/purchase')}>
+                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 lg:hidden" onClick={() => {
+                    setShowMenuMobile(false)
+                    navigate('/purchase')
+                  }}>
                     <AiOutlineShoppingCart className="" />
                     <span className="ml-2">Giỏ hàng</span>
                   </li>
-                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 border-t">
+                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 border-t" onClick={() => {
+                    setShowMenuMobile(false)
+                  }}>
                     <FiLogOut />
                     <span className="ml-2">Đăng xuất</span>
                   </li>
                 </ul>
               )}
             >
-              <span>
+              <span onClick={() => setShowMenuMobile(prev => !prev)}>
                 <BiUserCircle className=" md:block cursor-pointer" size={24} />
               </span>
             </Tippy>

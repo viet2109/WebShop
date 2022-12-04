@@ -5,6 +5,7 @@ import {
   AiFillStar,
   AiFillMinusCircle,
   AiFillPlusCircle,
+  AiFillCheckCircle
 } from "react-icons/ai";
 import { MdOutlineDoubleArrow } from "react-icons/md";
 import { useState } from "react";
@@ -13,6 +14,7 @@ import styles from "./DetailPage.module.css";
 import Button from "../components/Button";
 import Product from "../components/Product";
 import { productStore } from "../ProductStore";
+import { useRef } from "react";
 
 const cx = className.bind(styles);
 
@@ -20,7 +22,9 @@ function DetailPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
   let comment = JSON.parse(localStorage.getItem(`product${state.id}`)) ?? [];
+  let purchaseList = JSON.parse(localStorage.getItem(`purchaseList`)) ?? [];
   const [render, setRender] = useState(false);
+  const successRef = useRef()
 
   let indents = [];
 
@@ -36,13 +40,29 @@ function DetailPage() {
   }
   const [amount, setAmout] = useState(1);
   const handleIncrease = () => {
-    setAmout((prev) => prev + 1);
+    setAmout(amount + 1);
   };
 
   const handleDecrease = () => {
-    amount <= 1 ? setAmout(1) : setAmout((prev) => prev - 1);
+    amount <= 1 ? setAmout(1) : setAmout(amount - 1);
   };
+  const handleBuyProduct = () => {
+    const bill = {
+      id: state.id,
+      img: state.img,
+      brand: state.brand,
+      price: state.discount || state.price,
+      amount: amount,
+      total: amount * state.discount || state.price
+    }
+    localStorage.setItem('purchaseList', JSON.stringify([...purchaseList, bill]))
+    // Show alert buy success
+    successRef.current.classList.add("success")
+    setTimeout(() => {
+      successRef.current.classList.remove("success")
 
+    }, 2000)
+  }
   return (
     <div className="p-4">
       <div className="relative">
@@ -81,11 +101,11 @@ function DetailPage() {
           <span className="mx-4">{amount}</span>
           <AiFillPlusCircle onClick={handleIncrease} />
         </div>
-        <Button>Thêm vào giỏ hàng</Button>
+        <Button onClick={handleBuyProduct}>Thêm vào giỏ hàng</Button>
         <p className="mt-10 text-center text-xl font-bold">Các sản phẩm khác</p>
         <div className="grid grid-cols-1 mt-4 gap-8 md:grid-cols-2 mb-4 lg:grid-cols-3">
           {productStore.map((e) => (
-            <Product key={e.id} item={e} />
+            <Product key={e.id} item={e} onClick={() => setAmout(1)} />
           ))}
         </div>
 
@@ -183,6 +203,11 @@ function DetailPage() {
             ))}
           </div>
         </div>
+      </div>
+      {/* aler buy succes */}
+      <div className="fixed top-[70px] right-[-300px] w-72 rounded shadow-xl border-green-600 border-2 bg-white p-4 transition duration-500 flex items-center " ref={successRef}>
+        <AiFillCheckCircle size={24} className='mr-4 text-green-400' />
+        Mua hàng thành công
       </div>
     </div>
   );
