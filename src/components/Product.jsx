@@ -5,16 +5,17 @@ import { HiOutlineShoppingCart } from 'react-icons/hi'
 import { AiFillCheckCircle, AiFillHeart } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
+import { useState } from 'react'
 
-function Product({ item }) {
+function Product({ item, onClick = () => { } }) {
     const navigate = useNavigate()
+    const [purchaseList, setPurchaseList] = useState(JSON.parse(localStorage.getItem(`purchaseList`)) || [])
     const handleClick = () => {
-        // window.location.reload()
         navigate(`/${item.id}`, { state: { ...item } })
         window.scrollTo(0, 0)
+        onClick()
     }
     const successRef = useRef()
-    let purchaseList = JSON.parse(localStorage.getItem(`purchaseList`)) ?? [];
     const handleAddBill = () => {
         const bill = {
             id: item.id,
@@ -24,7 +25,7 @@ function Product({ item }) {
             amount: 1,
             total: item.discount || item.price
         }
-        localStorage.setItem('purchaseList', JSON.stringify([...purchaseList, bill]))
+        localStorage.setItem('purchaseList', JSON.stringify([...JSON.parse(localStorage.getItem(`purchaseList`)) || [], bill]))
         // Show alert buy success
         successRef.current.classList.add("success")
         setTimeout(() => {
@@ -39,7 +40,9 @@ function Product({ item }) {
             <div className="md:p-5 relative w-full">
                 <div className="w-full flex items-center justify-center mb-2 text-xs md:absolute md:bottom-0 md:mb-0  transition duration-300  md:group-hover:-translate-y-[80px]
                 md:group-hover:opacity-100 md:group-hover:flex md:left-0  md:opacity-0">
-                    <Button className="ml-2 p-0" onClick={handleClick}>Mua ngay</Button>
+                    <Button className="ml-2 p-0" onClick={() => {
+                        handleClick()
+                    }}>Mua ngay</Button>
                     <Button className="ml-2 text-sm " onClick={handleAddBill}><HiOutlineShoppingCart /></Button>
                     <Button className="ml-2 text-sm "><AiFillHeart /></Button>
                 </div>
