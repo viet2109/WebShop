@@ -6,8 +6,9 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
-        'header-h': '60px'
-      }
+        'header-h': '60px',
+        'product': 'calc(100% - 18rem)'
+      },
     },
   },
   plugins: [],
