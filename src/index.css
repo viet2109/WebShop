@@ -18,6 +18,23 @@ body {
     opacity: 1;
 }
 
+@layer components {
+    .success {
+        animation: animate .7s ease-in-out forwards;
+        /* transform: translateX(-310px); */
+    }
+
+    @keyframes animate {
+        80% {
+            transform: translateX(-350px);
+        }
+
+        100% {
+            transform: translateX(-340px);
+        }
+    }
+}
+
 html *::-webkit-scrollbar {
     border-radius: 0;
     width: 8px;
@@ -27,7 +44,7 @@ html *::-webkit-scrollbar {
 html *::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.08);
-    
+
 }
 
 html *::-webkit-scrollbar-track {

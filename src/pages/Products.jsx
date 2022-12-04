@@ -1,5 +1,5 @@
 import React from "react";
-import { AiFillCloseCircle, AiFillStar } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillCloseCircle, AiFillStar } from "react-icons/ai";
 import Product from "../components/Product";
 import Select from "react-select";
 import "./Products.css";
@@ -36,6 +36,7 @@ function Products() {
     window.scrollTo(0, 0);
   };
   const filterList = useRef()
+  const successRef = useRef()
   const handleShowFilter = () => {
     console.log(window.innerWidth);
     if (window.innerWidth > 1024) return
