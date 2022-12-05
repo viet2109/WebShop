@@ -79,7 +79,7 @@ const Form = forwardRef(({ }, ref) => {
                         <div className="border-b p-4 text-center font-bold text-xl">Đăng nhập</div>
                         <div className="p-4 px-8  flex flex-col">
                             <label htmlFor="sdt" className='py-4'>Số điện thoại:</label>
-                            <input type="number" name='sdt' className='border px-3 py-2' placeholder='Số điện thoại' onInput={(e) => {
+                            <input type="text" name='sdt' className='border px-3 py-2' placeholder='Số điện thoại' onInput={(e) => {
                                 setAccount(e.target.value)
                             }} value={account} />
                             <label htmlFor="mk" className='py-4'>Mật khẩu:</label>
@@ -99,7 +99,7 @@ const Form = forwardRef(({ }, ref) => {
                         <div className="border-b p-4 text-center font-bold text-xl">Đăng Ký</div>
                         <div className="p-4 px-8  flex flex-col">
                             <label htmlFor="sdt" className='py-4'>Số điện thoại:</label>
-                            <input type="number" name='sdt' className='border px-3 py-2' placeholder='Số điện thoại' onInput={(e) => {
+                            <input type="text" name='sdt' className='border px-3 py-2' placeholder='Số điện thoại' onInput={(e) => {
                                 setAccount(e.target.value)
                             }} value={account} />
                             <label htmlFor="mk" className='py-4'>Mật khẩu:</label>
