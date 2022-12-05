@@ -70,7 +70,7 @@ function Product({ item, onClick = () => { } }) {
     //     }, 2000)
     // }
     return (
-        <div className='flex flex-col items-center hover:bg-gray-300 transition duration-500 group relative' onClick={handleClick}>
+        <div className='flex flex-col items-center hover:bg-gray-300 transition duration-500 group relative'>
             <img src={item.img} alt="" className='h-72 group-hover:hidden ' loading='lazy' />
             <img src={item.hover} alt="" className='h-72 hidden group-hover:block' loading='lazy' />
             <div className="md:p-5 relative w-full">
