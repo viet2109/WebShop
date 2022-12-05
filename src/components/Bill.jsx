@@ -8,13 +8,24 @@ function Bill({ item, onClick, isLike }) {
     const sweetRef = useRef()
     const navigate = useNavigate()
     const handleRemove = () => {
-        const newArr = JSON.parse(localStorage.getItem("likedList") || []).filter(value => value.id !== item.id)
-        localStorage.setItem("likedList", JSON.stringify(newArr))
-        sweetRef.current.classList.add("success")
-        setTimeout(() => {
-            sweetRef.current.classList.remove("success")
-            window.location.reload()
-        }, 2000)
+        if (isLike) {
+            const newArr = JSON.parse(localStorage.getItem("likedList") || []).filter(value => value.id !== item.id)
+            localStorage.setItem("likedList", JSON.stringify(newArr))
+            sweetRef.current.classList.add("success")
+            setTimeout(() => {
+                sweetRef.current.classList.remove("success")
+                window.location.reload()
+            }, 2000)
+        } else {
+            const newArr = JSON.parse(localStorage.getItem("purchaseList") || []).filter(value => value.id !== item.id)
+            localStorage.setItem("purchaseList", JSON.stringify(newArr))
+            sweetRef.current.classList.add("success")
+            setTimeout(() => {
+                sweetRef.current.classList.remove("success")
+                window.location.reload()
+            }, 2000)
+        }
+
     }
     const handleBuyNow = () => {
         localStorage.setItem("purchaseList", JSON.stringify([...JSON.parse(localStorage.getItem("purchaseList")) || [], item]))
@@ -41,7 +52,7 @@ function Bill({ item, onClick, isLike }) {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
 
-                    {isLike && <span><Button className="bg-red-500 text-black" onClick={handleRemove}>Xóa</Button></span>}
+                    <span><Button className="" onClick={handleRemove}>Xóa</Button></span>
                     <span>
                         {isLike ? <Button className="" onClick={handleBuyNow}>Mua Ngay</Button> :
                             <Button className="" onClick={onClick}>Thanh toán</Button>}

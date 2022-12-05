@@ -9,6 +9,9 @@ module.exports = {
         'header-h': '60px',
         'product': 'calc(100% - 18rem)'
       },
+      colors: {
+        'redvu': '#ef4444 !important',
+      }
     },
   },
   plugins: [],

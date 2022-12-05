@@ -7,10 +7,9 @@ function LikedPage() {
     const list = JSON.parse(localStorage.getItem("likedList")) || []
 
     return (
-        <div className='p-4'>
-
+        <div className='p-4 min-h-screen'>
             <p>Các sản phẩm đã thích</p>
-            <div className="grid grid-cols-1 md:col-span-2 gap-4 lg:grid-cols-2">
+            <div className="grid grid-cols-1 md:col-span-2 gap-4 ">
                 {
                     list.map((e, i) => (
                         <Bill item={e} key={i} onClick={() => navigate("/purchase")} isLike />

@@ -75,8 +75,6 @@ function DetailPage() {
       localStorage.setItem("purchaseList", JSON.stringify([...JSON.parse(localStorage.getItem("purchaseList")) || [], bill]))
       showSweetAlert(successRef)
     }
-
-
   }
   return (
     <div className="p-4">
