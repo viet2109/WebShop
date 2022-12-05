@@ -26,11 +26,11 @@ body {
 
     @keyframes animate {
         80% {
-            transform: translateX(-350px);
+            transform: translateX(-520px);
         }
 
         100% {
-            transform: translateX(-340px);
+            transform: translateX(-510px);
         }
     }
 }

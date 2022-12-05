@@ -5,6 +5,7 @@ import Products from './pages/Products';
 import DetailPage from './pages/DetailPage';
 import HomePage from './pages/HomePage';
 import PurchasePage from './pages/PurchasePage';
+import LikedPage from './pages/LikedPage';
 function App() {
   return (
     <div className="relative">
@@ -14,6 +15,7 @@ function App() {
           <Route path='/:id' element={<MainLayout><DetailPage /></MainLayout>}></Route>
           <Route path='/products' element={<MainLayout><Products /></MainLayout>}></Route>
           <Route path='/purchase' element={<MainLayout><PurchasePage /></MainLayout>}></Route>
+          <Route path='/liked' element={<MainLayout><LikedPage /></MainLayout>}></Route>
         </Routes>
       </Router>
     </div>
