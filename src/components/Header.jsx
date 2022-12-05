@@ -10,9 +10,10 @@ import { useState } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { productStore } from "../ProductStore";
 import { useRef } from "react";
-import { FiLogOut } from 'react-icons/fi'
+import { FiLogIn, FiLogOut } from 'react-icons/fi'
 import Tippy2 from "@tippyjs/react";
 import 'tippy.js/dist/tippy.css';
+import Form from "./Form";
 const cx = classNames.bind(styles);
 
 function Header() {
@@ -25,13 +26,18 @@ function Header() {
   const handleClikProduct = (sp) => {
     navigate(`/${sp.id}`, { state: { ...sp } })
   }
-  const navbarRef = useRef()
+  const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem("currentUser")))
   // const handleShowNav = () => {
   //   console.log(navbarRef.current.style);
   //   navbarRef.current.style.top = navbarRef.current.style.top === "60px" ? "-200px" : "60px"
   //   console.log(navbarRef.current.style.top === "");
 
   // }
+  const modalRef = useRef()
+  const handleCloseModal = () => {
+    modalRef.current.classList.toggle("scale-0")
+    document.body.classList.toggle("overflow-hidden")
+  }
   return (
     <>
       <div className="h-header-h fixed top-0 w-screen border-b px-4 bg-white z-[999] md:px-8">
@@ -139,6 +145,7 @@ function Header() {
               render={() => (
                 <ul className="w-40 bg-white shadow-xl rounded-lg border mt-3 py-4">
                   <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4" onClick={() => {
+                    navigate("/liked")
                     setShowMenuMobile(false)
                   }}>
                     <AiOutlineHeart />
@@ -158,12 +165,27 @@ function Header() {
                     <AiOutlineShoppingCart className="" />
                     <span className="ml-2">Giỏ hàng</span>
                   </li>
-                  <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 border-t" onClick={() => {
-                    setShowMenuMobile(false)
-                  }}>
-                    <FiLogOut />
-                    <span className="ml-2">Đăng xuất</span>
-                  </li>
+                  {
+                    JSON.parse(localStorage.getItem("currentUser")) ?
+                      <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 border-t" onClick={() => {
+                        localStorage.removeItem("currentUser")
+                        navigate("/")
+                        setIsLogin(false)
+                        setShowMenuMobile(false)
+                        window.location.reload()
+                      }}>
+                        <FiLogOut />
+                        <span className="ml-2">Đăng xuất</span>
+                      </li>
+                      :
+                      <li className="flex items-center cursor-pointer hover:bg-gray-300 transition duration-300 py-2 px-4 border-t" onClick={() => {
+                        handleCloseModal()
+                        setShowMenuMobile(false)
+                      }}>
+                        <FiLogIn />
+                        <span className="ml-2">Đăng Nhập</span>
+                      </li>}
+
                 </ul>
               )}
             >
@@ -174,53 +196,12 @@ function Header() {
           </div>
 
 
-          {/* <div className={cx("sub-menu")}>
-          <ul className={cx("menu-list")}>
-            <li className={cx("menu-item-header")}>Catagories</li>
 
-            <li className={cx("menu-item")}>Wireless</li>
-            <li className={cx("menu-item")}>Inear Headphone</li>
-            <li className={cx("menu-item")}>Overear Headphone</li>
-            <li className={cx("menu-item")}>Sport Headphone</li>
-          </ul>
-          <ul className={cx("menu-list")}>
-            <li className={cx("menu-item-header")}>Catagories</li>
-
-            <li className={cx("menu-item")}>Wireless</li>
-            <li className={cx("menu-item")}>Inear Headphone</li>
-            <li className={cx("menu-item")}>Overear Headphone</li>
-            <li className={cx("menu-item")}>Sport Headphone</li>
-          </ul>
-          <ul className={cx("menu-list")}>
-            <li className={cx("menu-item-header")}>Catagories</li>
-
-            <li className={cx("menu-item")}>Wireless</li>
-            <li className={cx("menu-item")}>Inear Headphone</li>
-            <li className={cx("menu-item")}>Overear Headphone</li>
-            <li className={cx("menu-item")}>Sport Headphone</li>
-          </ul>
-        </div> */}
         </div>
 
       </div>
       {/* navbar in mobile */}
-      {/* <div className="fixed right-0 rounded w-full bg-[#ccc] top-[-200px] z-50 -ml-4 text-lg font-medium p-4 transition-all duration-500 origin-top" ref={navbarRef}>
-        <div className="flex items-center mb-2" onClick={() => {
-          navigate('/products')
-          handleShowNav()
-        }}>
-          <BsShop className="mr-2" size={24} />
-          <span>Sản phẩm</span>
-        </div>
-        <div className="flex items-center mb-2">
-          <AiOutlineShoppingCart className="mr-2" size={24} />
-          <span>Giỏ hàng</span>
-        </div>
-        <div className="flex items-center mb-2">
-          <BiUserCircle className="mr-2" size={24} />
-          <span>Đăng xuất</span>
-        </div>
-      </div> */}
+      <Form ref={modalRef} />
     </>
   );
 }

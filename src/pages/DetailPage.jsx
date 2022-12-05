@@ -15,6 +15,7 @@ import Button from "../components/Button";
 import Product from "../components/Product";
 import { productStore } from "../ProductStore";
 import { useRef } from "react";
+import SweetAleart from "../components/SweetAleart";
 
 const cx = className.bind(styles);
 
@@ -24,7 +25,10 @@ function DetailPage() {
   let comment = JSON.parse(localStorage.getItem(`product${state.id}`)) ?? [];
   let purchaseList = JSON.parse(localStorage.getItem(`purchaseList`)) ?? [];
   const [render, setRender] = useState(false);
+
   const successRef = useRef()
+  const failedRef = useRef()
+  const loginRef = useRef()
 
   let indents = [];
 
@@ -46,7 +50,17 @@ function DetailPage() {
   const handleDecrease = () => {
     amount <= 1 ? setAmout(1) : setAmout(amount - 1);
   };
+  const showSweetAlert = (alertRef) => {
+    alertRef.current.classList.add("success")
+    setTimeout(() => {
+      alertRef.current.classList.remove("success")
+    }, 2000)
+  }
   const handleBuyProduct = () => {
+    if (!localStorage.getItem("currentUser")) {
+      showSweetAlert(loginRef)
+      return
+    }
     const bill = {
       id: state.id,
       img: state.img,
@@ -55,13 +69,14 @@ function DetailPage() {
       amount: amount,
       total: amount * state.discount || state.price
     }
-    localStorage.setItem('purchaseList', JSON.stringify([...purchaseList, bill]))
-    // Show alert buy success
-    successRef.current.classList.add("success")
-    setTimeout(() => {
-      successRef.current.classList.remove("success")
+    const had = JSON.parse(localStorage.getItem("purchaseList") || []).some(e => e.id === bill.id)
+    if (had) showSweetAlert(failedRef)
+    else {
+      localStorage.setItem("purchaseList", JSON.stringify([...JSON.parse(localStorage.getItem("purchaseList")) || [], bill]))
+      showSweetAlert(successRef)
+    }
 
-    }, 2000)
+
   }
   return (
     <div className="p-4">
@@ -205,10 +220,9 @@ function DetailPage() {
         </div>
       </div>
       {/* aler buy succes */}
-      <div className="fixed top-[70px] right-[-300px] w-72 rounded shadow-xl border-green-600 border-2 bg-white p-4 transition duration-500 flex items-center " ref={successRef}>
-        <AiFillCheckCircle size={24} className='mr-4 text-green-400' />
-        Mua hàng thành công
-      </div>
+      <SweetAleart title="Đã thêm vào giỏ hàng" ref={successRef} />
+      <SweetAleart title="Sản phẩm đã được thêm vào trước đó" ref={failedRef} success={false} />
+      <SweetAleart title="Vui lòng đăng nhập" ref={loginRef} success={false} />
     </div>
   );
 }

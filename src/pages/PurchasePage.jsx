@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
+import Bill from '../components/Bill';
 import Button from '../components/Button'
 
 function PurchasePage() {
@@ -16,6 +17,7 @@ function PurchasePage() {
             totalBill += a.total
         }
         setBill(totalBill)
+        window.scrollTo(0, 0)
     }, [])
     // event when user click pay for all bill 
     const payAll = () => {
@@ -47,10 +49,6 @@ function PurchasePage() {
                     <div className="">
                         <p className='font-semibold md:py-2'>Duyvu</p>
                         <p className='md:py-2'>akjdsh</p>
-                        <div className='flex items-center md:py-2'>
-                            <AiOutlineHeart size={20} className='mr-2' />
-                            Yêu thích
-                        </div>
                     </div>
                 </div>
             </div>
@@ -58,29 +56,13 @@ function PurchasePage() {
             <div className="grid grid-cols-1 md:col-span-2 gap-4">
                 {
                     purchaseList.map((e, i) => (
-                        <div className="p-4 flex  justify-start" key={i}>
-                            <img src={e.img} alt="" className='w-32 h-32 border ' />
-                            <div className="flex-1  ml-4">
-                                <p>{e.id}</p>
-                                <p className='text-gray-400 py-2'>Phân loại hàng: <span>{e.brand}</span></p>
-                                <div className='flex items-center justify-between'>
-                                    <p>
-                                        <span className=' text-red-500 font-semibold'>{e.price} </span>
-                                        <span>x<span>{e.amount}</span></span>
-                                    </p>
-                                    <p>
-                                        <span>Thành tiền: </span>
-                                        <span className='text-red-500 font-semibold'>{e.total}</span>
-                                    </p>
-                                </div>
-                                <Button className="mt-2" onClick={() => {
-                                    const newArr = purchaseList.filter(value => value.id !== e.id)
-                                    localStorage.setItem("purchaseList", JSON.stringify(newArr))
-                                    setBill(e.total)
-                                    handleShowBill()
-                                }}>Thanh Toán</Button>
-                            </div>
-                        </div>
+                        <Bill onClick={() => {
+                            const newArr = purchaseList.filter(value => value.id !== e.id)
+                            localStorage.setItem("purchaseList", JSON.stringify(newArr))
+                            setBill(e.total)
+                            handleShowBill()
+                        }} item={e} key={i} />
+
                     ))
                 }
                 {/* nếu có sản phẩm cần thanh toán thì mới render nút thanh toán  */}
