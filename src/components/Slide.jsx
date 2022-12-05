@@ -13,7 +13,7 @@ function Slide({ item }) {
                 <p className='font-bold  text-lg mb-2 md:text-3xl opacity-0 -translate-y-1/2 ' data-id='1'>{item.id}</p>
                 <p className='font-bold text-2xl md:py-10 md:text-6xl opacity-0 -translate-y-1/2 ' data-id='2'>{item.name}</p>
                 <p className='mb-4 opacity-0 -translate-y-1/2 ' data-id='3'>{item.desc}</p>
-                <Button className="w-[40%] opacity-0 -translate-y-1/2 " data-id='4' onClick={handleClick}>Mua Ngay!</Button>
+                <Button className="w-[40%] opacity-0 -translate-y-1/2 " data-id='4' onClick={handleClick}>Mua Ngay</Button>
             </div>
         </div>
     )
