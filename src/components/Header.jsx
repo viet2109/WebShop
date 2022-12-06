@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaBars, FaClosedCaptioning } from "react-icons/fa";
-import { BiSearchAlt, BiUserCircle, BiXCircle } from "react-icons/bi";
+import { FaBars } from "react-icons/fa";
+import { BiSearchAlt, BiUserCircle } from "react-icons/bi";
 import { BsShop } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import classNames from "classnames/bind";

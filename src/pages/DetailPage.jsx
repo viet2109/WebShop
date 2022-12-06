@@ -17,6 +17,7 @@ const cx = className.bind(styles);
 
 function DetailPage() {
   const { state } = useLocation();
+  
   const navigate = useNavigate();
   let comment = JSON.parse(localStorage.getItem(`product${state.id}`)) ?? [];
   const [render, setRender] = useState(false);
